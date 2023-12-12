@@ -1,0 +1,19 @@
+.blog {
+  display: flex;
+
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  margin-bottom: 25px;
+
+  &::marker {
+    display: none;
+  }
+}
