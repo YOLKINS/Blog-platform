@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { HeartOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
 
-import './Post.scss';
+import './PostPreview.scss';
 
-const Post = ({ data }) => {
-  const { title, favoritesCount, author, tagList, createdAt, description } = data;
+const PostPreview = ({ data }) => {
+  const { slug, title, favoritesCount, author, tagList, createdAt, description } = data;
   // const {slug, favorited } = data;
 
   const dateFormat = format(new Date(createdAt), 'MMMM d, yyyy');
@@ -22,7 +23,9 @@ const Post = ({ data }) => {
   return (
     <article className="post">
       <div className="post__header">
-        <div className="post__title">{title}</div>
+        <Link className="post__title" to={`/articles/${slug}`}>
+          {title}
+        </Link>
         <span className="likes">
           <HeartOutlined className="heart" />
           <span className="likes__count">{favoritesCount}</span>
@@ -41,4 +44,4 @@ const Post = ({ data }) => {
   );
 };
 
-export default Post;
+export default PostPreview;

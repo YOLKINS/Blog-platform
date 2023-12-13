@@ -9,7 +9,7 @@ import AppPagination from '../a-components/pagination/Pagination';
 
 import './Blog.scss';
 
-import Post from './Post';
+import PostPreview from './PostPreview';
 
 const Blog = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const Blog = () => {
       <ul className="posts">
         {posts.map((post, index) => (
           <li key={index}>
-            <Post data={post} />
+            <PostPreview data={post} />
           </li>
         ))}
       </ul>
