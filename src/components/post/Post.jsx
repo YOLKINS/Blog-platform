@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+import './Post.scss';
+
 import { getPost } from '../../redux/store/store';
 import Spinner from '../a-components/spinner/spinner';
 import { ErrorService } from '../errors/errors';
@@ -11,9 +13,6 @@ import PostPreview from '../blog/PostPreview';
 
 const Post = () => {
   const dispatch = useDispatch();
-
-  const post = useSelector((state) => state.post.post);
-  const error = useSelector((state) => state.post.error);
   //   const isAuthorized = useSelector((state) => state.authorization.userName);
   //   const token = useSelector((state) => state.authorization.token);
 
@@ -23,19 +22,26 @@ const Post = () => {
 
   useEffect(() => {
     dispatch(getPost({ slug, token: null }));
-  }, [dispatch]);
+  }, []);
+
+  const post = useSelector((state) => state.post.post);
+  const error = useSelector((state) => state.post.error);
 
   if (!post) return <Spinner />;
+
+  console.log('post:    ', post);
 
   if (error) return <ErrorService />;
 
   return (
-    <article>
-      <header>
-        <PostPreview data={post} />
+    <article className="post">
+      <header className="info">
+        <PostPreview data={post} session="open" />
         {/* {isAllowInteract && <ArticleButtons />} */}
       </header>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{post?.body}</ReactMarkdown>
+      <ReactMarkdown className="body" remarkPlugins={[remarkGfm]}>
+        {post?.body}
+      </ReactMarkdown>
     </article>
   );
 };

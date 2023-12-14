@@ -1,5 +1,4 @@
 .header {
-  width: 100%;
   padding: 16px 22px;
 
   height: 80px;
@@ -13,14 +12,46 @@
 }
 
 .title {
-  display: inline-block;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.title span {
+.link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  gap: 20px;
+}
+
+.button {
+  display: flex;
+  width: auto;
+  height: 51px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  padding: 0 18px;
+}
+
+.button__active {
+  border-radius: 5px;
+  border: 1px solid #52c41a;
+}
+
+span {
   color: rgba(0, 0, 0, 0.85);
-  font-family: 'Inter';
+  font-family: 'Inter UI';
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: 28px;
+}
+
+.title__active {
+  color: #52c41a;
 }

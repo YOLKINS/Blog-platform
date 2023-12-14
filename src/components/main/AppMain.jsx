@@ -2,19 +2,23 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Blog from '../blog/Blog';
-import Post from '../post/post';
+import Post from '../post/Post';
+import SignUp from '../signUp/SignUp';
+import SignIn from '../signIn/SignIn';
 
 import './AppMain.scss';
 
 const AppMain = () => {
   return (
-    <div className="main">
+    <main className="main">
       <div className="container">
         <Routes>
           <Route path="/" element={<Blog />} />
           <Route path="/articles/" element={<Blog />} />
-          <Route path="/articles/:slug/" component={<Post />} />
+          <Route path="/articles/:slug/" element={<Post />} />
           <Route path="*" element={<Blog />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-in" element={<SignIn />} />
           {/* 
           <Route path={CREATE} component={CreateArticle} />
 
@@ -33,7 +37,7 @@ const AppMain = () => {
           {/* <Redirect to="/" component={ArticlesList} /> */}
         </Routes>
       </div>
-    </div>
+    </main>
   );
 };
 

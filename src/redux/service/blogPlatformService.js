@@ -16,7 +16,7 @@ export default class BlogPlatformService {
       }
     );
 
-  static getPost = async ({ slug, token }) =>
+  static getPost = async (slug, token) =>
     await this._serviceFetch(
       `articles/${slug}`,
       token && {

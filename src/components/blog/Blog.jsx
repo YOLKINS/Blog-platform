@@ -21,6 +21,10 @@ const Blog = () => {
 
   //const totalPages = Math.ceil(totalPosts / 5);
 
+  // useLayoutEffect(() => {
+  //   dispatch(togglePage(1));
+  // }, []);
+
   useEffect(() => {
     dispatch(getPosts({ pageNumber: currentPage, token: null }));
   }, [dispatch, currentPage]);
