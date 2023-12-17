@@ -1,32 +1,32 @@
-import React from 'react';
-// import { useLayoutEffect } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useLayoutEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import Form, { Email, Password, Submit } from '../form/Form';
-// import Spinner from '../a-components/spinner/spinner';
-// import { signIn, clearAuthorizationErrors } from '../../store';
+import { Form, Email, Password, Submit } from '../form/Form';
+import Spinner from '../a-components/spinner/spinner';
+import { signIn, clearAuthenticationErrors } from '../../redux/store/store';
 
 const SignIn = () => {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  //   useLayoutEffect(() => {
-  //     dispatch(clearAuthorizationErrors());
-  //   }, []);
+  useLayoutEffect(() => {
+    dispatch(clearAuthenticationErrors());
+  }, [dispatch]);
 
   const { handleSubmit, control } = useForm({ mode: 'onBlur' });
 
-  //   const error = useSelector((state) => state.authorization.errors);
-  //   const isLoading = useSelector((state) => state.authorization.loading);
-  //   const isAuthorize = useSelector((state) => state.authorization.userName);
+  const errors = useSelector((state) => state.authorization.errors);
+  const loading = useSelector((state) => state.authorization.loading);
+  const authorization = useSelector((state) => state.authorization.username);
 
-  //   if (isLoading) return <Spinner />;
-  //   if (isAuthorize) return <Redirect to="/" />;
+  if (loading) return <Spinner />;
+  if (authorization) return navigate('/articles/');
 
   const onSubmit = ({ email, password }) => {
     console.log('email: ', email, 'password: ', password);
-    // dispatch(signIn({ email, password }));
+    dispatch(signIn({ email, password }));
   };
 
   return (
@@ -44,11 +44,7 @@ const SignIn = () => {
 
       <Password control={control} warrning="Password required." rules={{ required: true }} />
 
-      <Submit
-        control={control}
-        value="Login"
-        //   error={error}
-      />
+      <Submit control={control} value="Login" error={errors} />
     </Form>
   );
 };

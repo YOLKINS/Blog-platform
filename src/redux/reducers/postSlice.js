@@ -2,17 +2,24 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import blogPlatformService from '../service/blogPlatformService';
 
-export const getPost = createAsyncThunk('post/getPost', async (stateArg) => {
-  try {
-    const response = await blogPlatformService.getPost(stateArg.slug, stateArg?.token);
-    if (!response.ok) console.log('data.ok === false', response);
-    const data = await response.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-});
+export const reducerFunction = (name) => {
+  return createAsyncThunk(name, async (stateArg) => {
+    try {
+      const response = await blogPlatformService[name](stateArg);
+      if (!response.ok) console.log('data.ok === false', response);
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
+
+export const setPost = reducerFunction('setPost');
+export const getPost = reducerFunction('getPost');
+export const editPost = reducerFunction('editPost');
+export const deletePost = reducerFunction('deletePost');
 
 const postSlice = createSlice({
   name: 'post',
@@ -21,7 +28,11 @@ const postSlice = createSlice({
     error: false,
     post: null,
   },
-  reducers: {},
+  reducers: {
+    clearPostErrors: (state) => {
+      state.error = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getPost.pending, (state) => {

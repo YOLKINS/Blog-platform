@@ -1,31 +1,31 @@
-// import { useEffect, useState, useLayoutEffect } from 'react';
-import { useState } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-// import Spinner from '../a-components/spinner/spinner';
-import Form, { Checkbox, Email, Input, Password, Submit, Username } from '../form/Form';
-// import { clearAuthorizationErrors, signUp } from '../../store';
+import Spinner from '../a-components/spinner/spinner';
+import { Form, Checkbox, Email, Input, Password, Submit, Username } from '../form/Form';
+import { clearAuthenticationErrors, signUp } from '../../redux/store/store';
 
 const SignUp = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // useLayoutEffect(() => {
-  //   dispatch(clearAuthorizationErrors());
-  // }, []);
+  useLayoutEffect(() => {
+    dispatch(clearAuthenticationErrors());
+  }, [dispatch]);
 
-  // const serverErrors = useSelector((state) => state.authorization.errors);
-  // const isLoading = useSelector((state) => state.authorization.loading);
-  // const isAuthorize = useSelector((state) => state.authorization.userName);
+  const serverErrors = useSelector((state) => state.authorization.errors);
+  const loading = useSelector((state) => state.authorization.loading);
+  const isRegister = useSelector((state) => state.authorization.username);
 
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
-  // useEffect(() => {
-  //   setNameError(!!serverErrors?.username);
-  //   setEmailError(!!serverErrors?.email);
-  // }, [serverErrors]);
+  useEffect(() => {
+    setNameError(!!serverErrors?.username);
+    setEmailError(!!serverErrors?.email);
+  }, [serverErrors]);
 
   const {
     register,
@@ -35,12 +35,12 @@ const SignUp = () => {
     formState: { errors: formErrors },
   } = useForm({ mode: 'onBlur' });
 
-  // if (isLoading) return <Spinner />;
-  // if (isAuthorize) return <Link to="/" />;
+  if (loading) return <Spinner />;
+  if (isRegister) return navigate('/articles/');
 
   const onSubmit = ({ username, email, password }) => {
     console.log('username:', username, 'email:', email, 'password:', password);
-    // dispatch(signUp({ username, email, password }));
+    dispatch(signUp({ username, email, password }));
   };
 
   return (

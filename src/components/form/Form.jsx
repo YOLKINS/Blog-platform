@@ -18,7 +18,7 @@ const Input = ({ label, placeholder, fieldProps, error, warrning }) => {
   );
 };
 
-function Username({ control, serverError, onChange, required = true }) {
+const Username = ({ control, serverError, onChange, required = true, placeholderLabel = 'Username' }) => {
   const { field, fieldState } = useController({
     control,
     defaultValue: '',
@@ -38,15 +38,15 @@ function Username({ control, serverError, onChange, required = true }) {
   return (
     <Input
       label="Username"
-      placeholder="Username"
+      placeholder={placeholderLabel}
       fieldProps={field}
       error={fieldState.invalid || serverError}
       warrning={warrning}
     />
   );
-}
+};
 
-function Email({ control, serverError, onChange, required = true }) {
+const Email = ({ control, serverError, onChange, required = true, placeholderLabel = 'Email address' }) => {
   const { field, fieldState } = useController({
     control,
     defaultValue: '',
@@ -61,15 +61,15 @@ function Email({ control, serverError, onChange, required = true }) {
   return (
     <Input
       label="Email address"
-      placeholder="Email address"
+      placeholder={placeholderLabel}
       fieldProps={field}
       error={fieldState.invalid || serverError}
       warrning={warrning}
     />
   );
-}
+};
 
-function Password({
+const Password = ({
   control,
   warrning,
   required = true,
@@ -79,7 +79,7 @@ function Password({
     minLength: 6,
     maxLength: 40,
   },
-}) {
+}) => {
   const { field, fieldState } = useController({
     control,
     defaultValue: '',
@@ -96,9 +96,9 @@ function Password({
       warrning={fieldState.invalid && warrning}
     />
   );
-}
+};
 
-function ImgUrl({ control, required = true }) {
+const Image = ({ control, required = true }) => {
   const { field, fieldState } = useController({
     control,
     defaultValue: '',
@@ -111,16 +111,16 @@ function ImgUrl({ control, required = true }) {
   });
   return (
     <Input
-      label="Avatar image"
+      label="Avatar image (url)"
       placeholder="Avatar image"
       fieldProps={{ ...field }}
       error={fieldState.invalid}
       warrning={fieldState.invalid && 'Entered value does not match url format.'}
     />
   );
-}
+};
 
-function Checkbox({ control, required = true }) {
+const Checkbox = ({ control, required = true }) => {
   const { field } = useController({
     control,
     defaultValue: '',
@@ -133,9 +133,9 @@ function Checkbox({ control, required = true }) {
       <input type="checkbox" {...field} />I agree to the processing of my personal information
     </label>
   );
-}
+};
 
-function Submit({ control, value, error }) {
+const Submit = ({ control, value, error }) => {
   const { formState } = useController({
     control,
     defaultValue: '',
@@ -147,8 +147,8 @@ function Submit({ control, value, error }) {
       {error && <section>Email or password is invalid.</section>}
     </>
   );
-}
-function Form({ title, children, footer, onSubmit }) {
+};
+const Form = ({ title, children, footer, onSubmit }) => {
   return (
     <form className={classes.form} onSubmit={onSubmit}>
       <h2>{title}</h2>
@@ -156,8 +156,6 @@ function Form({ title, children, footer, onSubmit }) {
       <footer>{footer}</footer>
     </form>
   );
-}
+};
 
-export default Form;
-
-export { Checkbox, Email, Input, ImgUrl, Password, Submit, Username };
+export { Form, Checkbox, Email, Input, Image, Password, Submit, Username };

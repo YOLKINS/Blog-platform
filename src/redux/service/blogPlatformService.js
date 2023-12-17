@@ -16,7 +16,7 @@ export default class BlogPlatformService {
       }
     );
 
-  static getPost = async (slug, token) =>
+  static getPost = async ({ slug, token }) =>
     await this._serviceFetch(
       `articles/${slug}`,
       token && {
@@ -29,19 +29,19 @@ export default class BlogPlatformService {
 
   static _interactionWithArticle =
     (method) =>
-    async ({ data, token, slug = '' }) =>
+    async ({ changed, token, slug = '' }) =>
       await this._serviceFetch(`articles/${slug}`, {
         method,
         headers: {
           Authorization: `Token ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ article: data }),
+        body: JSON.stringify({ article: changed }),
       });
 
-  static postArticle = this._interactionWithArticle('POST');
-  static editeArticle = this._interactionWithArticle('PUT');
-  static deleteArticle = this._interactionWithArticle('DELETE');
+  static setPost = this._interactionWithArticle('POST');
+  static editPost = this._interactionWithArticle('PUT');
+  static deletePost = this._interactionWithArticle('DELETE');
 
   static favoriteArticle = async (slug, token, favorite) =>
     await this._serviceFetch(`articles/${slug}/favorite`, {
@@ -61,29 +61,35 @@ export default class BlogPlatformService {
       body: JSON.stringify({ user: user }),
     });
 
-  static signIn = async (user) =>
+  static signIn = async ({ email, password }) =>
     await this._serviceFetch('users/login ', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user: user }),
+      body: JSON.stringify({
+        user: {
+          email: email,
+          password: password,
+        },
+      }),
     });
 
-  static getUserData = async (token) =>
+  static getUser = async (token) =>
     await this._serviceFetch('user', {
       headers: {
         Authorization: `Token ${token}`,
       },
     });
 
-  static updateUserData = async ({ token, user }) =>
-    await this._serviceFetch('user', {
+  static edit = async ({ token, changed }) => {
+    return await this._serviceFetch('user', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Token ${token}`,
       },
-      body: JSON.stringify({ user: user }),
+      body: JSON.stringify({ user: changed }),
     });
+  };
 }
