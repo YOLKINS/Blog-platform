@@ -32,8 +32,6 @@ const Blog = () => {
   if (!posts) return <Spinner />;
   if (error) return <ErrorService />;
 
-  console.log('token:  ', token);
-
   return (
     <section className="blog">
       <ul className="posts">

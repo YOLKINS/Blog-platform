@@ -13,14 +13,16 @@ const EditPost = () => {
 
   // const history = useHistory();
   const { slug } = useParams();
-
-  useLayoutEffect(() => {
-    dispatch(getPost(slug));
-  }, [dispatch, slug]);
-
   const token = useSelector((state) => state.authorization.token);
   const loading = useSelector((state) => state.authorization.loading);
   const isRegister = useSelector((state) => state.authorization.username);
+  console.log('.......', slug);
+
+  useLayoutEffect(() => {
+    if (slug && token) {
+      dispatch(getPost({ slug, token }));
+    }
+  }, [dispatch, slug, token]);
 
   const post = useSelector((state) => state.post.post);
   const error = useSelector((state) => state.post.error);
@@ -44,8 +46,8 @@ const EditPost = () => {
         }
         dispatch(
           editPost({
-            token,
             changed,
+            token,
             slug,
           })
         );

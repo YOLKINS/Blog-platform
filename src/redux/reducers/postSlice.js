@@ -3,15 +3,17 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import blogPlatformService from '../service/blogPlatformService';
 
 export const reducerFunction = (name) => {
-  return createAsyncThunk(name, async (stateArg) => {
+  return createAsyncThunk(name, async (stateArg, { rejectWithValue }) => {
     try {
       const response = await blogPlatformService[name](stateArg);
-      if (!response.ok) console.log('data.ok === false', response);
       const data = await response.json();
-      console.log(data);
-      return data;
+      if (response.ok) {
+        return data;
+      }
+      return rejectWithValue(data);
     } catch (error) {
-      console.log(error);
+      console.log('data.ok === false', error);
+      return rejectWithValue(error.response.data);
     }
   });
 };
@@ -32,6 +34,19 @@ const postSlice = createSlice({
     clearPostErrors: (state) => {
       state.error = false;
     },
+    // onToggleLike: () => {
+    //   return createAsyncThunk('post/onToggleLike', async (stateArg, { dispatch }) => {
+    //     try {
+    //       const response = await blogPlatformService.favoritePost(stateArg);
+    //       if (response.ok) {
+    //         return favorited;
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   });
+    // },
   },
   extraReducers: (builder) => {
     builder

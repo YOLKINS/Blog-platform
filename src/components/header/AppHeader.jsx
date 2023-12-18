@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Button } from 'antd';
@@ -16,10 +16,6 @@ const AppHeader = () => {
   const handleClickLogOut = () => {
     dispatch(logOut());
   };
-
-  useEffect(() => {
-    console.log('in header:  ', user.token);
-  }, []);
 
   return (
     <header className="header">

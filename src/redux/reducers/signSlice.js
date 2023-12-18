@@ -3,15 +3,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import blogPlatformService from '../service/blogPlatformService';
 
 export const reducerFunction = (name) => {
-  return createAsyncThunk(name, async (stateArg) => {
+  return createAsyncThunk(name, async (stateArg, { rejectWithValue }) => {
     try {
       const response = await blogPlatformService[name](stateArg);
-      if (!response.ok) console.log('data.ok === false', response);
       const data = await response.json();
-      console.log(data.user, data);
-      return data;
+      if (response.ok) {
+        if (stateArg?.cb) stateArg.cb();
+        return data;
+      }
+      return rejectWithValue(data);
     } catch (error) {
-      console.log(error);
+      console.log('data.ok === false', error);
+      return rejectWithValue(error.response.data);
     }
   });
 };

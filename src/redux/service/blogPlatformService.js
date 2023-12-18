@@ -16,8 +16,9 @@ export default class BlogPlatformService {
       }
     );
 
-  static getPost = async ({ slug, token }) =>
-    await this._serviceFetch(
+  static getPost = async ({ slug, token }) => {
+    console.log('what:', token, slug);
+    return await this._serviceFetch(
       `articles/${slug}`,
       token && {
         headers: {
@@ -26,10 +27,11 @@ export default class BlogPlatformService {
         },
       }
     );
+  };
 
-  static _interactionWithArticle =
+  static _interactionWithPost =
     (method) =>
-    async ({ changed, token, slug = '' }) =>
+    async ({ changed, token, slug = '' }) => {
       await this._serviceFetch(`articles/${slug}`, {
         method,
         headers: {
@@ -38,12 +40,13 @@ export default class BlogPlatformService {
         },
         body: JSON.stringify({ article: changed }),
       });
+    };
 
-  static setPost = this._interactionWithArticle('POST');
-  static editPost = this._interactionWithArticle('PUT');
-  static deletePost = this._interactionWithArticle('DELETE');
+  static setPost = this._interactionWithPost('POST');
+  static editPost = this._interactionWithPost('PUT');
+  static deletePost = this._interactionWithPost('DELETE');
 
-  static favoriteArticle = async (slug, token, favorite) =>
+  static favoritePost = async ({ slug, token, favorite }) =>
     await this._serviceFetch(`articles/${slug}/favorite`, {
       method: favorite ? 'DELETE' : 'POST',
       headers: {
