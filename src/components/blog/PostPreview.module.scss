@@ -26,6 +26,7 @@
 }
 
 .post-preview__title {
+  text-decoration: none;
   display: flex;
   align-items: center;
   color: #1890ff;
@@ -69,6 +70,15 @@
   .date {
     display: flex;
     align-self: flex-end;
+  }
+
+  & .date {
+    color: rgba(0, 0, 0, 0.5);
+    font-family: 'Inter';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
   }
 }
 

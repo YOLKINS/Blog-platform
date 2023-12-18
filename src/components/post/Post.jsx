@@ -1,21 +1,23 @@
 /* eslint-disable indent */
 import React, { useLayoutEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { HeartOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
+import { Popconfirm, message, Button } from 'antd';
 
 // eslint-disable-next-line import/order
 import classes from './Post.module.scss';
 
-import { getPost } from '../../redux/store/store';
+import { getPost, deletePost } from '../../redux/store/store';
 import Spinner from '../a-components/spinner/spinner';
 import { ErrorService } from '../errors/errors';
 
 const Post = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isRegister = useSelector((state) => state.authorization.username);
   const token = useSelector((state) => state.authorization.token);
@@ -50,6 +52,15 @@ const Post = () => {
 
   if (error) return <ErrorService />;
 
+  const confirm = () => {
+    dispatch(deletePost({ token, slug, data: null }));
+    navigate('/');
+    message.success('Article has been deleted');
+  };
+  const cancel = () => {
+    return;
+  };
+
   return (
     <article className={classes.post}>
       <section className={classes.preview}>
@@ -70,12 +81,19 @@ const Post = () => {
           </div>
           {isAllowInteract && (
             <div className={classes['preview__interaction']}>
-              <button type="button" className={classes.delete}>
-                Delete
-              </button>
-              <Link to={'/'} className={classes.edit}>
-                <button type="button">Edit</button>
+              <Link to={`/articles/${slug}/edit`} className={classes.edit}>
+                <Button style={{ border: '1px solid #52C41A', color: '#52C41A' }}>Edit</Button>
               </Link>
+              <Popconfirm
+                title="Are you sure to delete this task?"
+                placement={'right'}
+                onConfirm={confirm}
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button style={{ border: '1px solid #F5222D', color: '#F5222D' }}>Delete</Button>
+              </Popconfirm>
             </div>
           )}
         </div>

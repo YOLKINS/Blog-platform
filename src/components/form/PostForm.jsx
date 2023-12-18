@@ -68,7 +68,7 @@ const PostForm = ({ postTitle, errorMessage, onSubmit, title, description, body,
       />
 
       <label htmlFor="tags">Tags</label>
-      <ul>
+      <ul id="tags">
         {fields.map((tag, index) => {
           return (
             <li key={tag.id}>
@@ -107,7 +107,7 @@ const PostForm = ({ postTitle, errorMessage, onSubmit, title, description, body,
         )}
       </ul>
 
-      <input type="submit" disabled={!isValid} />
+      <input type="submit" disabled={!isValid} value={isValid ? 'Send' : 'Processing...'} />
       {error && <section className={classes.warrning}>{errorMessage}</section>}
     </form>
   );

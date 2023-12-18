@@ -111,7 +111,7 @@ const Image = ({ control, required = true }) => {
   });
   return (
     <Input
-      label="Avatar image (url)"
+      label="Avatar image"
       placeholder="Avatar image"
       fieldProps={{ ...field }}
       error={fieldState.invalid}

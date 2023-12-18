@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import blogSlice, { getPosts } from '../reducers/blogSlice';
-import postSlice, { getPost, setPost } from '../reducers/postSlice';
+import postSlice, { getPost, setPost, editPost, deletePost } from '../reducers/postSlice';
 import signSlice, { signIn, signUp, edit, getUser } from '../reducers/signSlice';
 
 export default configureStore({
@@ -20,6 +20,8 @@ export {
   getPosts,
   getPost,
   setPost,
+  editPost,
+  deletePost,
   signUp,
   signIn,
   edit,

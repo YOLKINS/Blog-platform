@@ -51,6 +51,60 @@ const postSlice = createSlice({
         state.loading = false;
         state.error = true;
         state.post = null;
+      })
+      //-----------------------------------------------------
+      .addCase(setPost.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.post = null;
+      })
+      .addCase(setPost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        if (action.payload?.article) {
+          state.post = action.payload.article;
+        }
+      })
+      .addCase(setPost.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+        state.post = null;
+      })
+      //-------------------------------------------------------
+      .addCase(editPost.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.post = null;
+      })
+      .addCase(editPost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        if (action.payload?.article) {
+          state.post = action.payload.article;
+        }
+      })
+      .addCase(editPost.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+        state.post = null;
+      })
+      //-------------------------------------------------------
+      .addCase(deletePost.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.post = null;
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        if (action.payload?.article) {
+          state.post = action.payload.article;
+        }
+      })
+      .addCase(deletePost.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+        state.post = null;
       });
   },
 });

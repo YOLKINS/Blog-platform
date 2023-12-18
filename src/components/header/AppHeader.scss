@@ -16,26 +16,37 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .link {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
 
   gap: 20px;
 }
 
 .button {
   display: flex;
-  width: auto;
-  height: 51px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  text-decoration: none;
 
-  padding: 0 18px;
+  font-family: 'Inter';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+
+  &__large {
+    width: 109px;
+    height: 51px;
+    padding: 0 18px;
+  }
 }
 
 .button__active {
@@ -43,15 +54,12 @@
   border: 1px solid #52c41a;
 }
 
-span {
+.title__text {
+  margin-right: 10px;
   color: rgba(0, 0, 0, 0.85);
-  font-family: 'Inter UI';
+  font-family: 'Inter';
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: 28px;
-}
-
-.title__active {
-  color: #52c41a;
 }
