@@ -4,13 +4,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { HeartOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
 import { Popconfirm, message, Button } from 'antd';
 
 // eslint-disable-next-line import/order
 import classes from './Post.module.scss';
 
+import Like from '../a-components/like/Like';
 import { getPost, deletePost } from '../../redux/store/store';
 import Spinner from '../a-components/spinner/spinner';
 import { ErrorService } from '../errors/errors';
@@ -26,12 +26,12 @@ const Post = () => {
   const post = useSelector((state) => state.post.post);
   const error = useSelector((state) => state.post.error);
 
-  const isAllowInteract = post?.author.username === isRegister;
+  const isYours = post?.author.username === isRegister;
 
   console.log('post:    ', post);
 
   useLayoutEffect(() => {
-    dispatch(getPost({ slug, token: isAllowInteract ? token : null }));
+    dispatch(getPost({ slug, token: isYours ? token : null }));
     console.log('getPost');
   }, [dispatch]);
 
@@ -61,15 +61,16 @@ const Post = () => {
     return;
   };
 
+  console.log(post.favorited);
+
   return (
     <article className={classes.post}>
       <section className={classes.preview}>
         <Link className={classes['preview__title']} to={`/articles/${slug}`}>
-          {post.title}
+          {post.title.length > 40 ? `${post.title.slice(0, 45)}...` : post.title}
         </Link>
         <span className={classes.likes}>
-          <HeartOutlined className={classes.heart} />
-          <span className={classes['likes__count']}>{post.favoritesCount}</span>
+          <Like slug={slug} favoritesCount={post?.favoritesCount} favorited={post?.favorited} />
         </span>
         <div className={classes['preview__about']}>
           <div className={classes['preview__account']}>
@@ -79,7 +80,7 @@ const Post = () => {
             </div>
             <img className={classes['preview__avatar']} src={post.author.image} alt="avatar" />
           </div>
-          {isAllowInteract && (
+          {isYours && (
             <div className={classes['preview__interaction']}>
               <Link to={`/articles/${slug}/edit`} className={classes.edit}>
                 <Button style={{ border: '1px solid #52C41A', color: '#52C41A' }}>Edit</Button>

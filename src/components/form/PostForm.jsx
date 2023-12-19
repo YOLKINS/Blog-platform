@@ -42,6 +42,7 @@ const PostForm = ({ postTitle, errorMessage, onSubmit, title, description, body,
         placeholder={errors?.title ? 'This field is required' : 'Article title'}
         {...register('title', {
           required: true,
+          maxLength: 45,
         })}
         className={errors?.title ? classes.invalid : undefined}
       />
@@ -52,6 +53,7 @@ const PostForm = ({ postTitle, errorMessage, onSubmit, title, description, body,
         placeholder={errors?.description ? 'This field is required' : 'Short description'}
         {...register('description', {
           required: true,
+          maxLength: 150,
         })}
         className={errors?.description ? classes.invalid : undefined}
       />

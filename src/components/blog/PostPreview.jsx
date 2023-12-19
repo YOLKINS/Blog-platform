@@ -1,18 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HeartOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
 
 import avatarDefault from '../../images/Avatar 1.png';
+import Like from '../a-components/like/Like';
 
 import classes from './PostPreview.module.scss';
 
 const PostPreview = ({ data }) => {
-  const { slug, title, favoritesCount, author, tagList, createdAt, description } = data;
-  // const {slug, favorited } = data;
-
+  const { slug, title, author, tagList, createdAt, description, favoritesCount, favorited } = data;
   const dateFormat = format(new Date(createdAt), 'MMMM d, yyyy');
-
   const avatar = author.image ? author.image : avatarDefault;
 
   const tagListDisplay = tagList.map((tag, index) => {
@@ -28,11 +25,10 @@ const PostPreview = ({ data }) => {
     <article className={classes['post-preview']}>
       <div className={classes['post-preview__header']}>
         <Link className={classes['post-preview__title']} to={`/articles/${slug}`}>
-          {title}
+          {title.length > 40 ? `${title.slice(0, 40)}...` : title}
         </Link>
         <span className={classes.likes}>
-          <HeartOutlined className={classes.heart} />
-          <span className={classes['likes__count']}>{favoritesCount}</span>
+          <Like slug={slug} favoritesCount={favoritesCount} favorited={favorited} />
         </span>
         <div className={classes['post-preview__account']}>
           <div className={classes['post-preview__info']}>
@@ -43,7 +39,7 @@ const PostPreview = ({ data }) => {
         </div>
       </div>
       <ul className={classes.tags}>{tagListDisplay}</ul>
-      <section className={classes['post-preview__description']}>{description}</section>
+      <section className={classes['post-preview__description']}>{description.slice(0, 100)}</section>
     </article>
   );
 };

@@ -1,0 +1,14 @@
+.heart {
+  transition: transform 0.7s ease;
+  margin-right: 10px;
+
+  &:hover {
+    transform: scale(1.3);
+    color: #ff0707;
+  }
+
+  &__active {
+    margin-right: 10px;
+    color: #ff0707;
+  }
+}

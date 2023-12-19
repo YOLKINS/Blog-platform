@@ -16,11 +16,10 @@ const EditPost = () => {
   const token = useSelector((state) => state.authorization.token);
   const loading = useSelector((state) => state.authorization.loading);
   const isRegister = useSelector((state) => state.authorization.username);
-  console.log('.......', slug);
 
   useLayoutEffect(() => {
     if (slug && token) {
-      dispatch(getPost({ slug, token }));
+      dispatch(getPost({ token, slug }));
     }
   }, [dispatch, slug, token]);
 
@@ -49,9 +48,11 @@ const EditPost = () => {
             changed,
             token,
             slug,
+            cb: () => {
+              navigate('/');
+            },
           })
         );
-        navigate('/');
       }}
     />
   );

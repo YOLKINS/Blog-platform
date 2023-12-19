@@ -32,9 +32,11 @@ const NewPost = () => {
           setPost({
             token,
             changed,
+            cb: () => {
+              navigate('/');
+            },
           })
         );
-        navigate('/');
       }}
     />
   );

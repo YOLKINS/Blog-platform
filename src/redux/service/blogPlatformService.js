@@ -17,7 +17,6 @@ export default class BlogPlatformService {
     );
 
   static getPost = async ({ slug, token }) => {
-    console.log('what:', token, slug);
     return await this._serviceFetch(
       `articles/${slug}`,
       token && {
@@ -31,7 +30,8 @@ export default class BlogPlatformService {
 
   static _interactionWithPost =
     (method) =>
-    async ({ changed, token, slug = '' }) => {
+    // eslint-disable-next-line no-unused-vars
+    async ({ changed, token, slug = '', cb }) => {
       await this._serviceFetch(`articles/${slug}`, {
         method,
         headers: {
@@ -46,9 +46,9 @@ export default class BlogPlatformService {
   static editPost = this._interactionWithPost('PUT');
   static deletePost = this._interactionWithPost('DELETE');
 
-  static favoritePost = async ({ slug, token, favorite }) =>
+  static favoritePost = async ({ slug, token, method }) =>
     await this._serviceFetch(`articles/${slug}/favorite`, {
-      method: favorite ? 'DELETE' : 'POST',
+      method: method ? 'DELETE' : 'POST',
       headers: {
         Authorization: `Token ${token}`,
         'Content-Type': 'application/json',

@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import blogPlatformService from '../service/blogPlatformService';
 
-export const getPosts = createAsyncThunk('blog/getPosts', async (stateArg, { rejectWithValue }) => {
+export const getPosts = createAsyncThunk('blog/getPosts', async ({ pageNumber, token }, { rejectWithValue }) => {
   try {
-    const response = await blogPlatformService.getPostsList(stateArg.pageNumber, stateArg?.token);
+    const response = await blogPlatformService.getPostsList({ pageNumber, token });
     const data = await response.json();
     if (response.ok) {
       return data;
