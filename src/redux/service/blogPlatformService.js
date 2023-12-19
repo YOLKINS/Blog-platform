@@ -1,8 +1,14 @@
 /* eslint-disable indent */
 export default class BlogPlatformService {
   static _serviceFetch = async (url, options) => {
-    const response = await fetch(`https://blog.kata.academy/api/${url}`, options);
-    return response;
+    try {
+      console.log(options);
+      const response = await fetch(`https://blog.kata.academy/api/${url}`, options);
+      console.log('in serviceFetch -----------> ', response);
+      return response;
+    } catch (error) {
+      console.log('Fetch error:', error);
+    }
   };
 
   static getPostsList = async (page = 1, token) =>
@@ -28,10 +34,9 @@ export default class BlogPlatformService {
     );
   };
 
-  static _interactionWithPost =
+  static _withPost =
     (method) =>
-    // eslint-disable-next-line no-unused-vars
-    async ({ changed, token, slug = '', cb }) => {
+    async ({ changed, token, slug = '' }) =>
       await this._serviceFetch(`articles/${slug}`, {
         method,
         headers: {
@@ -40,11 +45,9 @@ export default class BlogPlatformService {
         },
         body: JSON.stringify({ article: changed }),
       });
-    };
-
-  static setPost = this._interactionWithPost('POST');
-  static editPost = this._interactionWithPost('PUT');
-  static deletePost = this._interactionWithPost('DELETE');
+  static setPost = this._withPost('POST');
+  static editPost = this._withPost('PUT');
+  static deletePost = this._withPost('DELETE');
 
   static favoritePost = async ({ slug, token, method }) =>
     await this._serviceFetch(`articles/${slug}/favorite`, {

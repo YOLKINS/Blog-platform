@@ -5,9 +5,7 @@ import blogPlatformService from '../service/blogPlatformService';
 export const reducerFunction = (name) => {
   return createAsyncThunk(name, async (stateArg, { rejectWithValue }) => {
     try {
-      console.log(name, stateArg);
       const response = await blogPlatformService[name](stateArg);
-      console.log(response);
       const data = await response.json();
       if (response.ok) {
         if (stateArg?.cb) stateArg.cb();
@@ -15,12 +13,11 @@ export const reducerFunction = (name) => {
       }
       return rejectWithValue(data);
     } catch (error) {
-      console.log('data.ok === false', error);
+      console.log('data.ok === false', error.response.data);
       return rejectWithValue(error.response.data);
     }
   });
 };
-
 // export const reducerFunctionLike = (name) => {
 //   return createAsyncThunk(name, async (stateArg, { rejectWithValue }) => {
 //     try {
